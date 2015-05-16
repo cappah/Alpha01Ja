@@ -100,6 +100,11 @@ public class Camera
 		else if (pitch > MAX_PITCH)
 			pitch = MAX_PITCH;
 	}
+
+	public void invertPitch()
+	{
+		pitch = -pitch;
+	}
 	public Vector3f getPosition() 
 	{
 		return position;

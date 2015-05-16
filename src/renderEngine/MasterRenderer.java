@@ -18,6 +18,7 @@ import com.game.core.Loader;
 
 import entities.Entity;
 import entities.Light;
+import org.lwjgl.util.vector.Vector4f;
 import shaderPrograms.StaticShader;
 import shaderPrograms.TerrainShader;
 import terrain.Terrain;
@@ -64,20 +65,21 @@ public class MasterRenderer
 		
 	}
 	
-	public void renderScene(List<Entity> entities, List<Terrain> terrains, List<Light> lights, Camera camera)
+	public void renderScene(List<Entity> entities, List<Terrain> terrains, List<Light> lights, Camera camera, Vector4f clippingPlane)
 	{
 		for (Terrain terrain : terrains)
 			processTerrain(terrain);
 		for (Entity entity : entities)
 			processEntity(entity);
-		render(lights, camera);
+		render(lights, camera, clippingPlane);
 	}
 	
 	
-	public void render(List<Light> lights, Camera camera)
+	public void render(List<Light> lights, Camera camera, Vector4f clippingPlane)
 	{
 		prepare();
 		mShader.start();
+		//mShader.loadClippingPlane(clippingPlane); // water
 		mShader.loadSkyColor(0.4f, 0.5f, 0.5f);
 		mShader.loadLights(lights);
 		mShader.loadViewMatrix(camera);
@@ -85,6 +87,7 @@ public class MasterRenderer
 		mShader.stop();
 		
 		terrainShader.start();
+		//terrainShader.loadClippingPlane(clippingPlane); // water
 		terrainShader.loadSkyColor(0.4f, 0.5f, 0.5f);
 		terrainShader.loadLights(lights);
 		terrainShader.loadViewMatrix(camera);

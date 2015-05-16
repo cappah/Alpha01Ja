@@ -10,7 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import camera.Camera;
 import entities.Light;
-
+import org.lwjgl.util.vector.Vector4f;
 
 
 public class StaticShader extends ShaderProgram
@@ -32,7 +32,8 @@ public class StaticShader extends ShaderProgram
 	private int location_skyColor;
 	private int location_numberOfRows;
 	private int location_offset;
-	
+	private int location_plane;
+
 	public StaticShader()
 	{
 		super(VERTEX_FILE, FRAG_FILE);
@@ -81,6 +82,8 @@ public class StaticShader extends ShaderProgram
 		
 		location_numberOfRows = super.getUniformLocation("numberOfRows");
 		location_offset = super.getUniformLocation("offset");
+
+		location_plane = super.getUniformLocation("plane");
 	}
 
 	
@@ -151,5 +154,11 @@ public class StaticShader extends ShaderProgram
 	public void loadOffset(float x, float y)
 	{
 		super.load2DVector(location_offset, new Vector2f(x, y));
+	}
+
+
+	public void loadClippingPlane(Vector4f plane)
+	{
+		super.load4DVector(location_plane, plane);
 	}
 }

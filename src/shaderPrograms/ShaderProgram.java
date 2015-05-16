@@ -14,7 +14,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-
+import org.lwjgl.util.vector.Vector4f;
 
 
 /**
@@ -97,6 +97,12 @@ public abstract class ShaderProgram
 	protected void loadInt(int location, int value)
 	{
 		glUniform1i(location, value);
+	}
+
+
+	protected void load4DVector(int location, Vector4f vec)
+	{
+		glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
 	}
 
 

@@ -19,13 +19,15 @@ uniform float useFakeLighting;
 uniform float numberOfRows;
 uniform vec2 offset;
 
-const float density = 0.0035;  // fog density
+const float density = 0.00035;  // fog density
 const float gradient = 5.0;
 
+uniform vec4 plane;
 
 void main()
 {
 	vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
+	gl_ClipDistance[0] = dot(worldPosition, plane);
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	TexCoord = (texCoord / numberOfRows) + offset;

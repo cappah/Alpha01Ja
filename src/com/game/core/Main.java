@@ -1,5 +1,8 @@
 package com.game.core;
 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL30.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,6 +20,7 @@ import effects.WaterTile;
 import entities.Entity;
 import entities.Light;
 import entities.Player;
+import org.lwjgl.util.vector.Vector4f;
 import renderEngine.GUIRenderer;
 import renderEngine.MasterRenderer;
 import renderEngine.WaterRenderer;
@@ -26,6 +30,7 @@ import textures.GUITexture;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
+import water.WaterFrameBuffers;
 
 
 public class Main 
@@ -38,7 +43,7 @@ public class Main
         Loader loader = new Loader();
        
         /*******************************TERRAIN**********************************/
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("beach_sand001s"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("dirt"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path"));
@@ -126,13 +131,14 @@ public class Main
         /******************************PLAYER******************************************/
        RawModel playerModel = OBJLoader.loadObjModel("person", loader);
        TexturedModel personModel = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture"))); 
-       Player player = new Player(personModel, new Vector3f(0, 0, -50), 0, 0, 0, 0.4f);
+       Player player = new Player(personModel, new Vector3f(125, -9.5f, 135.5f), 0, 0, 0, 0.2f);
        /******************************************************************************/
        
        Camera camera = new Camera(player);
        
        List<GUITexture> guis = new ArrayList<GUITexture>();
        GUITexture gui = new GUITexture(loader.loadTexture("socuwan"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+
        guis.add(gui);
        GUIRenderer guiRenderer = new GUIRenderer(loader);
        /**********************WATER***********************/
@@ -141,30 +147,56 @@ public class Main
        WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
        List<WaterTile> waters = new ArrayList<WaterTile>();
        waters.add(new WaterTile(231, 342, -7));
-       
-       //WaterFrameBuffers fbos = new WaterFrameBuffers();
-       
+
+      // WaterFrameBuffers fbos = new WaterFrameBuffers();
+      //  GUITexture refraction = new GUITexture(fbos.getRefractionTexture(), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+     //  GUITexture reflection = new GUITexture(fbos.getReflectionTexture(), new Vector2f(-0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+      //  guis.add(refraction);
+      //  guis.add(reflection);
        //GUITexture frameWindow = new GUITexture(fbos.getReflectionTexture(), new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f));
        //guis.add(frameWindow);
-       
+
+        // Clipping plane
+        Vector4f reflectionClipping = new Vector4f(0, 1, 0, -waters.get(0).getHeight());
+        Vector4f refractionClipping = new Vector4f(0, -1, 0, waters.get(0).getHeight());
        
         while(!Display.isCloseRequested())
         {	
         	camera.move();
         	player.move(currentTerrain(terrains, player));
-        	renderer.processEntity(player);
-        	
+            renderer.processEntity(player);
+
+            /* Water reflection and refraction. Check MasterRenderer for clipping plane
+            glEnable(GL_CLIP_DISTANCE0);
+
+            // render reflection (render everything above water
+            fbos.bindReflectionFrameBuffer();
+            float distance = 2 * (camera.getPosition().y - waters.get(0).getHeight());
+            camera.getPosition().y -= distance;
+            camera.invertPitch();
+            renderer.renderScene(entities, terrainList, lights, camera, reflectionClipping);
+            camera.getPosition().y += distance;
+            camera.invertPitch();
+
+            // render refraction (render everything under water
+            fbos.bindRefractionFrameBuffer();
+            renderer.renderScene(entities, terrainList, lights, camera, refractionClipping);
+
+            // render window frame
         	//fbos.bindReflectionFrameBuffer();
         	//renderer.renderScene(entities, terrainList, lights, camera);
         	//fbos.unbindCurrentFrameBuffer();
-        	
-        	renderer.renderScene(entities, terrainList, lights, camera);
+
+            // render scene
+            glDisable(GL_CLIP_DISTANCE0);
+            fbos.unbindCurrentFrameBuffer();*/
+        	renderer.renderScene(entities, terrainList, lights, camera, new Vector4f(0, -1, 0, 100000));
         	waterRenderer.render(waters, camera);
         	guiRenderer.render(guis);
         	
         	DisplayManager.updateDisplay();
         }
-       //fbos.cleanUp();
+       // fbos.cleanUp();
         waterShader.cleanup();
         renderer.cleanup();
         loader.cleanup();
