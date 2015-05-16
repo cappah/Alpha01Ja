@@ -1,0 +1,11 @@
+newmtl shutter
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0.603674
+map_Kd /Maps/shutter-rustymetal.jpg
+map_Bump /Maps/shutter-rustymetal.jpg
+

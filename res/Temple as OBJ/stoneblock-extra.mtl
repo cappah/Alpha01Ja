@@ -1,0 +1,11 @@
+newmtl stoneblocks_inner
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0.819608 0.827451 0.866667
+Ks 0.14902 0.14902 0.14902
+Km 0.621219
+map_Kd /Maps/stonetexture.jpg
+map_Bump /Maps/stonetexture.jpg
+

@@ -1,0 +1,22 @@
+newmtl sacrifying-stone-base
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km -0.606572
+map_Kd /Maps/stoneplatesandsteps.jpg
+map_Bump /Maps/stoneplatesandsteps.jpg
+
+newmtl sacrifying-stone-plate
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0.654902 0.654902 0.654902
+Ks 0.811765 0.811765 0.811765
+Km 0.61126
+map_Kd /Maps/sacrifying-stone-topplate.jpg
+map_Bump /Maps/sacrifying-stone-topplate.jpg
+

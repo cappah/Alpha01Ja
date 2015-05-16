@@ -1,0 +1,31 @@
+newmtl def_surf_mat
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0.819608 0.827451 0.866667
+Ks 0.14902 0.14902 0.14902
+Km 0
+
+newmtl ramp
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0.627312
+map_Kd /Maps/stoneplatesandsteps.jpg
+map_Bump /Maps/stoneplatesandsteps.jpg
+
+newmtl ramp-topplate
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0.399018
+map_Kd /Maps/stoneplatesandsteps.jpg
+map_Bump /Maps/stoneplatesandsteps.jpg
+

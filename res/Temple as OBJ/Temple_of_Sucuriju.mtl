@@ -1,0 +1,379 @@
+newmtl topplates
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.424269
+map_Kd /Maps/stoneplatesandsteps.jpg
+map_Bump /Maps/stoneplatesandsteps.jpg
+
+newmtl stoneblocks_inner
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.704236
+map_Kd /Maps/stonetexture.jpg
+map_Bump /Maps/stonetexture.jpg
+
+newmtl basin-tiles
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.405724
+map_Kd /Maps/stoneplatesandsteps.jpg
+map_Bump /Maps/stoneplatesandsteps.jpg
+
+newmtl side2-lower
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.620798
+map_Kd /Maps/sidestexture.jpg
+map_Bump /Maps/sidestexture.jpg
+
+newmtl side3-lower
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.650723
+map_Kd /Maps/sidestexture.jpg
+map_Bump /Maps/sidestexture.jpg
+
+newmtl edge1-lower
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.604192
+map_Kd /Maps/edges-stonetexture.jpg
+map_Bump /Maps/edges-stonetexture.jpg
+
+newmtl side1-lower
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.600807
+map_Kd /Maps/sidestexture.jpg
+map_Bump /Maps/sidestexture.jpg
+
+newmtl edge3-lower
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.591489
+map_Kd /Maps/edges-stonetexture.jpg
+map_Bump /Maps/edges-stonetexture.jpg
+
+newmtl edge4-lower
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.633251
+map_Kd /Maps/edges-stonetexture.jpg
+map_Bump /Maps/edges-stonetexture.jpg
+
+newmtl side1-upper
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.619235
+map_Kd /Maps/sidestexture.jpg
+map_Bump /Maps/sidestexture.jpg
+
+newmtl edge1-upper
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.63011
+map_Kd /Maps/edges-stonetexture.jpg
+map_Bump /Maps/edges-stonetexture.jpg
+
+newmtl edge4-upper
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.60311
+map_Kd /Maps/edges-stonetexture.jpg
+map_Bump /Maps/edges-stonetexture.jpg
+
+newmtl edge2-upper
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.60645
+map_Kd /Maps/edges-stonetexture.jpg
+map_Bump /Maps/edges-stonetexture.jpg
+
+newmtl edge3-upper
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.605376
+map_Kd /Maps/edges-stonetexture.jpg
+map_Bump /Maps/edges-stonetexture.jpg
+
+newmtl side3-upper
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.63503
+map_Kd /Maps/sidestexture.jpg
+map_Bump /Maps/sidestexture.jpg
+
+newmtl side2-upper
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.611211
+map_Kd /Maps/sidestexture.jpg
+map_Bump /Maps/sidestexture.jpg
+
+newmtl side4-upper
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.607491
+map_Kd /Maps/sidestexture.jpg
+map_Bump /Maps/sidestexture.jpg
+
+newmtl side4-lower
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.617396
+map_Kd /Maps/sidestexture.jpg
+map_Bump /Maps/sidestexture.jpg
+
+newmtl shutter-stone
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.598242
+map_Kd /Maps/stoneplatesandsteps.jpg
+map_Bump /Maps/stoneplatesandsteps.jpg
+
+newmtl shutterslides
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.604162
+map_Kd /Maps/shutter-rustymetal.jpg
+map_Bump /Maps/shutter-rustymetal.jpg
+
+newmtl stairway-blockfiller
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd /Maps/edges-stonetexture.jpg
+
+newmtl stairway-steps
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.693904
+map_Kd /Maps/side-stepplate.jpg
+map_Bump /Maps/side-stepplate.jpg
+
+newmtl edgesplares-lower
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.641701
+map_Kd /Maps/stoneplatesandsteps.jpg
+map_Bump /Maps/stoneplatesandsteps.jpg
+
+newmtl side1-stepplate
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.611201
+map_Kd /Maps/side-stepplate.jpg
+map_Bump /Maps/side-stepplate.jpg
+
+newmtl side3-stepplate
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.615378
+map_Kd /Maps/side-stepplate.jpg
+map_Bump /Maps/side-stepplate.jpg
+
+newmtl side4-stepplate
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.59285
+map_Kd /Maps/side-stepplate.jpg
+map_Bump /Maps/side-stepplate.jpg
+
+newmtl stairway-banisters
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.586757
+map_Kd /Maps/stoneplatesandsteps.jpg
+map_Bump /Maps/stoneplatesandsteps.jpg
+
+newmtl cc-logo
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0.501961 0.501961 0.25098
+Ks 0.6 0.6 0.6
+Km 0
+
+newmtl edge2-lower
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.636993
+map_Kd /Maps/edges-stonetexture.jpg
+map_Bump /Maps/edges-stonetexture.jpg
+
+newmtl side2-stepplate
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.59695
+map_Kd /Maps/side-stepplate.jpg
+map_Bump /Maps/side-stepplate.jpg
+
+newmtl sucuriju-eyeruby
+d 0.701754
+Ns 0.701754
+Ni 0
+Ka 0 0 0
+Kd 0.501961 0 0
+Ks 1 0 0
+Km 0
+
+newmtl sucuriju
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.691921
+map_Kd /Maps/stoneplatesandsteps.jpg
+map_Bump /Maps/stoneplatesandsteps.jpg
+
+newmtl sucuriju-goldinlays
+d 1
+Ns 0.701754
+Ni 0
+Ka 0 0 0
+Kd 0.501961 0.501961 0
+Ks 1 1 0
+Km 0
+map_Kd /Maps/stonetexture.jpg
+
+newmtl stairway-sides
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0.671028
+map_Kd /Maps/stairway-sidetexture.jpg
+map_Bump /Maps/stairway-sidetexture.jpg
+
+newmtl Water
+d 0.508772
+Ns 0.290076
+Ni 0
+Ka 0.2 0.2 0.2
+Kd 0.831373 0.929412 0.839216
+Ks 1 1 1
+Km 0.0201626
+map_Kd /Maps/watersurface.jpg
+map_Bump /Maps/watersurface.jpg
+
