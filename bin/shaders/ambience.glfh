@@ -1,0 +1,10 @@
+uniform vec4 Ambient;
+
+const float TINT_ALPHA = 0.2;
+
+vec3 environmentTint(vec3 skyColor)
+{
+    vec3 scatteredLight = vec3(0.439, 0.259, 0.078);
+
+    return min(skyColor.rgb * scatteredLight, vec3(TINT_ALPHA));
+}

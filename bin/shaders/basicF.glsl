@@ -1,6 +1,7 @@
 #version 400 core
 
 #include "fog.glfh"
+#include "ambience.glfh"
 
 in vec2 TexCoord;
 in vec3 SurfaceNormal;
@@ -57,6 +58,6 @@ void main()
 		discard;
 	}
 	
-	fragColor = vec4(totalDiffuse, 1.0) * textureColor + vec4(totalSpecular, 1.0);
+	fragColor = vec4(totalDiffuse, 1.0) * textureColor + vec4(totalSpecular, 1.0) + environmentTint(skyColor);
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
 }

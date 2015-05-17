@@ -1,6 +1,7 @@
 #version 400 core
 
 #include "fog.glfh"
+#include "ambience.glfh"
 
 in vec2 TexCoord;
 in vec3 SurfaceNormal;
@@ -16,6 +17,8 @@ uniform vec3 lightColor[4];
 uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColor;
+
+
 
 uniform sampler2D backgroundTexture;
 uniform sampler2D rTexture;
@@ -38,7 +41,7 @@ void main()
 	vec3 unitNormal = normalize(SurfaceNormal);
 	vec3 unitVectorToCamera = normalize(ToCameraVector);
 	
-	
+
 	vec3 totalDiffuse = vec3(0.0);
 	vec3 totalSpecular = vec3(0.0);
 	for (int i = 0; i < 4; i++)
@@ -63,9 +66,7 @@ void main()
 		totalSpecular = totalSpecular + (dampedFactor * reflectivity * lightColor[i]) / attFactor;
 	}
 	totalDiffuse = max(totalDiffuse, 0.2);
-	
-	
-	
-	fragColor = vec4(totalDiffuse, 1.0) * totalColor + vec4(totalSpecular, 1.0);
+
+	fragColor = vec4(totalDiffuse, 1.0) * totalColor + vec4(totalSpecular, 1.0) + environmentTint(skyColor);
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
 }
