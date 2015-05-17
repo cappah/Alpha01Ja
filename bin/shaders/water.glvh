@@ -1,0 +1,6 @@
+uniform vec4 plane;
+
+void setClippingDistance(vec4 worldPosition)
+{
+    gl_ClipDistance[0] = dot(worldPosition, plane);
+}

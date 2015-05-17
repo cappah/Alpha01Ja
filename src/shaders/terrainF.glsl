@@ -1,12 +1,13 @@
 #version 400 core
 
+#include "fog.glfh"
 
 in vec2 TexCoord;
 in vec3 SurfaceNormal;
 in vec3 ToLightVector[4];
 uniform vec3 attenuation[4];
 in vec3 ToCameraVector;
-in float Visibility;
+
 
 
 out vec4 fragColor;
@@ -42,7 +43,7 @@ void main()
 	vec3 totalSpecular = vec3(0.0);
 	for (int i = 0; i < 4; i++)
 	{
-	float distance = length(ToLightVector[i]);
+		float distance = length(ToLightVector[i]);
 		float attFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance * distance);
 		vec3 unitLightVector = normalize(ToLightVector[i]);
 	

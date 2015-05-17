@@ -1,0 +1,11 @@
+out float Visibility;		// Fog
+
+const float density = 0.00035;  // fog density
+const float gradient = 5.0;
+
+void CalcFog(vec4 positionRelativeToCam)
+{
+    float distance = length(positionRelativeToCam.xyz);
+    	Visibility = exp(-pow((distance * density), gradient));
+    	Visibility = clamp(Visibility, 0.0, 1.0);
+}

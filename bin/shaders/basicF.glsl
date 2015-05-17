@@ -1,11 +1,11 @@
 #version 400 core
 
+#include "fog.glfh"
+
 in vec2 TexCoord;
 in vec3 SurfaceNormal;
 in vec3 ToLightVector[4];
 in vec3 ToCameraVector;
-in float Visibility;
-
 
 out vec4 fragColor;
 
