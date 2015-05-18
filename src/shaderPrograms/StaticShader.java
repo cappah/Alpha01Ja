@@ -9,7 +9,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import camera.Camera;
-import entities.Light;
+import lights.Light;
 import org.lwjgl.util.vector.Vector4f;
 
 

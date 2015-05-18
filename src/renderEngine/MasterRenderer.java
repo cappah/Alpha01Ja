@@ -18,12 +18,12 @@ import camera.Camera;
 import com.game.core.Loader;
 
 import entities.Entity;
-import entities.Light;
+import lights.Light;
+import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 import shaderPrograms.StaticShader;
 import shaderPrograms.TerrainShader;
 import terrain.Terrain;
-import utils.FPSTimer;
 
 
 public class MasterRenderer 
@@ -32,7 +32,7 @@ public class MasterRenderer
 	private static final float NEAR = 0.1f;
 	private static final float FAR = 1600f;
 	
-	private SkySpectrum mSkySpectrum;
+	//private SkySpectrum mSkySpectrum;
 	
 	private Matrix4f projectionMatrix;
 	
@@ -50,7 +50,7 @@ public class MasterRenderer
 	// CONSTRUCTOR
 	public MasterRenderer(Loader loader)
 	{
-		mSkySpectrum = new SkySpectrum();
+		//mSkySpectrum = new SkySpectrum();
 
 		enableCulling();
 		createProjectionMatrix();
@@ -62,7 +62,7 @@ public class MasterRenderer
 	
 	public void prepare()
 	{
-		mSkySpectrum.init();
+		//mSkySpectrum.init();
 		glEnable(GL_DEPTH_TEST);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.4f, 0.5f, 0.5f, 1);
@@ -82,7 +82,7 @@ public class MasterRenderer
 	public void render(List<Light> lights, Camera camera, Vector4f clippingPlane)
 	{
 		prepare();
-		mSkySpectrum.update();
+		//mSkySpectrum.update();
 		mShader.start();
 		//mShader.loadClippingPlane(clippingPlane); // water
 		mShader.loadSkyColor(0.4f, 0.5f, 0.5f);
@@ -95,6 +95,7 @@ public class MasterRenderer
 		//terrainShader.loadClippingPlane(clippingPlane); // water
 		terrainShader.loadSkyColor(0.4f, 0.5f, 0.5f);
 		terrainShader.loadLights(lights);
+		terrainShader.loadDirectionalLight(new Vector3f(0, -1, 0), camera.getPosition(), 1.f);
 		terrainShader.loadViewMatrix(camera);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();

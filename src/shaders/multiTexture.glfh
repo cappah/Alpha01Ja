@@ -1,0 +1,19 @@
+uniform sampler2D backgroundTexture;
+uniform sampler2D rTexture;
+uniform sampler2D gTexture;
+uniform sampler2D bTexture;
+uniform sampler2D blendMap;
+
+
+vec4 calcMultiTexture(vec2 texCoord)
+{
+    vec4 blendMapColor = texture(blendMap, texCoord);
+    float backTextureAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);
+    vec2 tileCoords = texCoord * 40.0;
+    vec4 bgTextureColor = texture(backgroundTexture, tileCoords) * backTextureAmount;
+    vec4 rTextureColor = texture(rTexture, tileCoords) * blendMapColor.r;
+    vec4 gTextureColor = texture(gTexture, tileCoords) * blendMapColor.g;
+    vec4 bTextureColor = texture(bTexture, tileCoords) * blendMapColor.b;
+
+    return bgTextureColor + rTextureColor + gTextureColor + bTextureColor;
+}

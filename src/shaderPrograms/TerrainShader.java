@@ -4,11 +4,14 @@ import java.util.List;
 
 import math.Maths;
 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
+
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import camera.Camera;
-import entities.Light;
+import lights.Light;
 import org.lwjgl.util.vector.Vector4f;
 
 
@@ -37,6 +40,16 @@ public class TerrainShader extends ShaderProgram
 	private int location_blendMap;
 
 	private int location_plane;
+
+	// Base Light
+	private int location_baseLightColor;
+	private int location_baseLightIntensity;
+	// Directional Light
+	private int location_directionalLightColor;
+	private int location_directionalLightAmbientIntensity;
+	private int location_directionalLightDirection;
+
+	private int location_camPosition;
 	
 	public TerrainShader()
 	{
@@ -89,6 +102,16 @@ public class TerrainShader extends ShaderProgram
 		location_blendMap = super.getUniformLocation("blendMap");
 
 		location_plane = super.getUniformLocation("plane");
+
+		// Base Light
+		location_baseLightColor = super.getUniformLocation("gBaseLight.color");
+		location_baseLightIntensity = super.getUniformLocation("gBaseLight.intensity");
+		// Directional Light
+		location_directionalLightColor = super.getUniformLocation("gDirectionalLight.base.color");
+		location_directionalLightAmbientIntensity = super.getUniformLocation("gDirectionalLight.base.intensity");
+		location_directionalLightDirection = super.getUniformLocation("gDirectionalLight.base.direction");
+
+		location_camPosition = super.getUniformLocation("camPos");
 	}
 
 	
@@ -136,8 +159,8 @@ public class TerrainShader extends ShaderProgram
 		super.loadFloat(location_shineDamper, damper);
 		super.loadFloat(location_reflectivity, reflectivity);
 	}
-	
-	
+
+
 	public void loadSkyColor(float r, float g, float b)
 	{
 		super.loadVector(location_skyColor, new Vector3f(r, g, b));
@@ -157,5 +180,42 @@ public class TerrainShader extends ShaderProgram
 	public void loadClippingPlane(Vector4f plane)
 	{
 		super.load4DVector(location_plane, plane);
+	}
+
+
+	/**************************************************
+	                    LIGHTING
+	 **************************************************/
+
+	private void loadBaseLightColor(Vector3f color)
+	{
+		super.loadVector(location_baseLightColor, color);
+	}
+
+
+	private void loadBaseLightAmbience(float ambientIntensity)
+	{
+		super.loadFloat(location_baseLightIntensity, ambientIntensity);
+	}
+
+
+	public void loadDirectionalLight(Vector3f direction, Vector3f color, float ambientIntensity)
+	{
+		//loadBaseLightColor(color);
+		//loadBaseLightAmbience(ambientIntensity);
+		super.loadVector(location_directionalLightDirection, direction);
+		super.loadVector(location_directionalLightColor, color);
+		super.loadFloat(location_directionalLightAmbientIntensity, ambientIntensity);
+	}
+
+
+	public void loadCamPos(Vector3f pos)
+	{
+		super.loadVector(location_camPosition, pos);
+	}
+
+
+	public void loadDirectionalLightAmbience(float ambientIntensity) {
+
 	}
 }

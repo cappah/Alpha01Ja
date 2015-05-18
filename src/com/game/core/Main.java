@@ -1,8 +1,5 @@
 package com.game.core;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL30.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +15,7 @@ import org.lwjgl.util.vector.Vector3f;
 import camera.Camera;
 import effects.WaterTile;
 import entities.Entity;
-import entities.Light;
+import lights.Light;
 import entities.Player;
 import org.lwjgl.util.vector.Vector4f;
 import renderEngine.GUIRenderer;
@@ -30,7 +27,6 @@ import textures.GUITexture;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
-import water.WaterFrameBuffers;
 
 
 public class Main 

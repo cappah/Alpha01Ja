@@ -11,7 +11,7 @@ out vec2 TexCoord;
 out vec3 Normal;
 out vec3 ToLightVector[4];
 out vec3 ToCameraVector;
-
+out vec3 WorldPos;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 transformationMatrix;
@@ -21,6 +21,7 @@ uniform vec3 lightPosition[4];
 void main()
 {
 	vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
+	WorldPos = worldPosition.xyz;
 
 	setClippingDistance(worldPosition);
 

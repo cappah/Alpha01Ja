@@ -2,15 +2,18 @@
 
 #include "fog.glfh"
 #include "ambience.glfh"
+#include "multiTexture.glfh"
+#include "lighting.glfh"
 
 const int MAX_NUM_LIGHTS = 4;
+
 
 in vec2 TexCoord;
 in vec3 Normal;
 in vec3 ToLightVector[MAX_NUM_LIGHTS];
 uniform vec3 attenuation[MAX_NUM_LIGHTS];
 in vec3 ToCameraVector;
-
+in vec3 WorldPos;
 
 
 out vec4 fragColor;
@@ -22,23 +25,12 @@ uniform vec3 skyColor;
 
 
 
-uniform sampler2D backgroundTexture;
-uniform sampler2D rTexture;
-uniform sampler2D gTexture;
-uniform sampler2D bTexture;
-uniform sampler2D blendMap;
+
 
 void main()
 {
-	vec4 blendMapColor = texture(blendMap, TexCoord);
-	float backTextureAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);
-	vec2 tileCoords = TexCoord * 40.0;
-	vec4 bgTextureColor = texture(backgroundTexture, tileCoords) * backTextureAmount;
-	vec4 rTextureColor = texture(rTexture, tileCoords) * blendMapColor.r;
-	vec4 gTextureColor = texture(gTexture, tileCoords) * blendMapColor.g;
-	vec4 bTextureColor = texture(bTexture, tileCoords) * blendMapColor.b;
-	
-	vec4 totalColor = bgTextureColor + rTextureColor + gTextureColor + bTextureColor;
+	// MultiTexture terrain
+	vec4 totalColor = calcMultiTexture(TexCoord);
 	
 	vec3 unitNormal = normalize(Normal);
 	vec3 unitVectorToCamera = normalize(ToCameraVector);
@@ -71,6 +63,8 @@ void main()
 	}
 	totalDiffuse = max(totalDiffuse, 0.2);
 
-	fragColor = vec4(totalDiffuse, 1.0) * totalColor + vec4(totalSpecular, 0.5) + environmentTint(skyColor, 0.2);
+	fragColor = vec4(totalDiffuse, 1.0) * totalColor + vec4(totalSpecular, 0.5) +
+	environmentTint(skyColor, 0.2) +
+	CalcDirectionalLight(gDirectionalLight, camPos, Normal, WorldPos);
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
 }
