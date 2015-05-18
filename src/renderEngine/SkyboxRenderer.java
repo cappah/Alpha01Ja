@@ -90,6 +90,7 @@ public class SkyboxRenderer
 		nightTexture = loader.loadCubeMap(NIGHT_TEXTURE_FILES);
 		shader = new SkyboxShader();
 		shader.start();
+		shader.loadSkyColor(0.4f, 0.5f, 0.5f);
 		shader.connectTextureUnits();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();

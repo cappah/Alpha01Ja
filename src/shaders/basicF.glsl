@@ -3,6 +3,8 @@
 #include "fog.glfh"
 #include "ambience.glfh"
 
+const int MAX_NUM_LIGHTS = 4;
+
 in vec2 TexCoord;
 in vec3 SurfaceNormal;
 in vec3 ToLightVector[4];
@@ -10,8 +12,8 @@ in vec3 ToCameraVector;
 
 out vec4 fragColor;
 
-uniform vec3 lightColor[4];
-uniform vec3 attenuation[4];
+uniform vec3 lightColor[MAX_NUM_LIGHTS];
+uniform vec3 attenuation[MAX_NUM_LIGHTS];
 uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColor;
@@ -27,7 +29,7 @@ void main()
 	vec3 totalDiffuse = vec3(0.0);
 	vec3 totalSpecular = vec3(0.0);
 	
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < MAX_NUM_LIGHTS; i++)
 	{
 		float distance = length(ToLightVector[i]);
 		float attFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance * distance);
@@ -58,6 +60,6 @@ void main()
 		discard;
 	}
 	
-	fragColor = vec4(totalDiffuse, 1.0) * textureColor + vec4(totalSpecular, 1.0) + environmentTint(skyColor);
+	fragColor = vec4(totalDiffuse, 1.0) * textureColor + vec4(totalSpecular, 1.0) + environmentTint(skyColor, 0.2);
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
 }

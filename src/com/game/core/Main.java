@@ -35,6 +35,10 @@ import water.WaterFrameBuffers;
 
 public class Main 
 {
+    // How many tiles across x and z axis
+    public static final int TERRAIN_ROOT_DIMENSION = 2;
+    public static final int TERRAIN_SIZE_SQUARED = TERRAIN_ROOT_DIMENSION * TERRAIN_ROOT_DIMENSION;
+
 	public static void main(String[] args) 
 	{
 		
@@ -93,37 +97,37 @@ public class Main
         {
         	if (i % 5 == 0)
         	{
-        		float x = rand.nextFloat() * 800;
-            	float z = rand.nextFloat() * 600;
+        		float x = rand.nextFloat() * 800.0f;
+            	float z = rand.nextFloat() * 600.0f;
             	float y = terrains[0][0].getHeightOfTerrain(x, z);
-            	entities.add(new Entity(tree, new Vector3f(x, y, z), 0, rand.nextFloat() * 360, 0, 3));
+            	entities.add(new Entity(tree, new Vector3f(x, y, z), 0, rand.nextFloat() * 360.0f, 0.0f, 3.0f));
         	}
         	
         	if (i % 20 == 0)
         	{
-        		float x = rand.nextFloat() * 800;
-            	float z = rand.nextFloat() * 600;
+        		float x = rand.nextFloat() * 800.0f;
+            	float z = rand.nextFloat() * 600.0f;
             	float y = terrains[0][0].getHeightOfTerrain(x, z);
-            	entities.add(new Entity(grass, new Vector3f(x, y, z), 0, rand.nextFloat() * 360, 0, 1));
+            	entities.add(new Entity(grass, new Vector3f(x, y, z), 0, rand.nextFloat() * 360.0f, 0.0f, 1.0f));
         	}
         	
         	if (i % 10 == 0)
         	{
-        		float x = rand.nextFloat() * 800;
-            	float z = rand.nextFloat() * 600;
+        		float x = rand.nextFloat() * 800.0f;
+            	float z = rand.nextFloat() * 600.0f;
             	float y = terrains[0][0].getHeightOfTerrain(x, z);
-            	entities.add(new Entity(fern, rand.nextInt(4), new Vector3f(x, y, z), 0, rand.nextFloat() * 360, 0, 0.6f));
+            	entities.add(new Entity(fern, rand.nextInt(4), new Vector3f(x, y, z), 0, rand.nextFloat() * 360.0f, 0.0f, 0.6f));
         	}
         	
         }
        
         /******************************LIGHTS******************************************/
-        Light light = new Light(new Vector3f(0, 0, -20), new Vector3f(1, 1, 1));
+        Light light = new Light(new Vector3f(0.0f, 0.0f, -20.0f), new Vector3f(1.0f, 1.0f, 1.0f));
         List<Light> lights = new ArrayList<Light>();
-        lights.add(new Light(new Vector3f(0, 1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f)));
-        lights.add(new Light(new Vector3f(95, 5, 91), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new Light(new Vector3f(238, 30, 195), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new Light(new Vector3f(164, 10, 262), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(0.0f, 1000.0f, -7000.0f), new Vector3f(0.4f, 0.4f, 0.4f)));
+        lights.add(new Light(new Vector3f(95.0f, 5.0f, 91.0f), new Vector3f(2.0f, 0.0f, 0.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(238.0f, 30.0f, 195.0f), new Vector3f(0.0f, 2.0f, 2.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(164.0f, 10.0f, 262.0f), new Vector3f(2.0f, 2.0f, 0.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
         /******************************************************************************/
         
         MasterRenderer renderer = new MasterRenderer(loader);
@@ -131,7 +135,7 @@ public class Main
         /******************************PLAYER******************************************/
        RawModel playerModel = OBJLoader.loadObjModel("person", loader);
        TexturedModel personModel = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture"))); 
-       Player player = new Player(personModel, new Vector3f(125, -9.5f, 135.5f), 0, 0, 0, 0.2f);
+       Player player = new Player(personModel, new Vector3f(125.0f, -9.5f, 135.5f), 0.0f, 0.0f, 0.0f, 0.2f);
        /******************************************************************************/
        
        Camera camera = new Camera(player);
@@ -146,7 +150,7 @@ public class Main
        WaterShader waterShader = new WaterShader();
        WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
        List<WaterTile> waters = new ArrayList<WaterTile>();
-       waters.add(new WaterTile(231, 342, -7));
+       waters.add(new WaterTile(231.0f, 342.0f, -7.0f));
 
       // WaterFrameBuffers fbos = new WaterFrameBuffers();
       //  GUITexture refraction = new GUITexture(fbos.getRefractionTexture(), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
@@ -157,8 +161,8 @@ public class Main
        //guis.add(frameWindow);
 
         // Clipping plane
-        Vector4f reflectionClipping = new Vector4f(0, 1, 0, -waters.get(0).getHeight());
-        Vector4f refractionClipping = new Vector4f(0, -1, 0, waters.get(0).getHeight());
+        Vector4f reflectionClipping = new Vector4f(0.0f, 1.0f, 0.0f, -waters.get(0).getHeight());
+        Vector4f refractionClipping = new Vector4f(0.0f, -1.0f, 0.0f, waters.get(0).getHeight());
        
         while(!Display.isCloseRequested())
         {	
@@ -208,9 +212,9 @@ public class Main
 	public static Terrain currentTerrain(Terrain[][] terrains, Player player)
 	{
 		Terrain currentTerrain = null;
-    	for (int i = 0; i < 2; i++)
+    	for (int i = 0; i < TERRAIN_ROOT_DIMENSION; i++)
     	{
-    		for (int j = 0; j < 2; j++)
+    		for (int j = 0; j < TERRAIN_ROOT_DIMENSION; j++)
     		{
     			int gridX =  (int)(player.getPosition().x / Terrain.SIZE);
             	int gridZ =  (int)(player.getPosition().z / Terrain.SIZE);

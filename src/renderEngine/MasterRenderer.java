@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import colors.SkySpectrum;
 import models.TexturedModel;
 
 import org.lwjgl.opengl.Display;
@@ -22,6 +23,7 @@ import org.lwjgl.util.vector.Vector4f;
 import shaderPrograms.StaticShader;
 import shaderPrograms.TerrainShader;
 import terrain.Terrain;
+import utils.FPSTimer;
 
 
 public class MasterRenderer 
@@ -30,7 +32,7 @@ public class MasterRenderer
 	private static final float NEAR = 0.1f;
 	private static final float FAR = 1600f;
 	
-	
+	private SkySpectrum mSkySpectrum;
 	
 	private Matrix4f projectionMatrix;
 	
@@ -43,22 +45,24 @@ public class MasterRenderer
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 	
-	private SkyboxRenderer skyboxRenderer;
+	//private SkyboxRenderer skyboxRenderer;
 	
 	// CONSTRUCTOR
 	public MasterRenderer(Loader loader)
 	{
+		mSkySpectrum = new SkySpectrum();
+
 		enableCulling();
 		createProjectionMatrix();
 		renderer = new EntityRenderer(mShader, projectionMatrix);
 		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
-		skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
+		//skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
 	}
 	
 	
 	public void prepare()
 	{
-		
+		mSkySpectrum.init();
 		glEnable(GL_DEPTH_TEST);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.4f, 0.5f, 0.5f, 1);
@@ -78,6 +82,7 @@ public class MasterRenderer
 	public void render(List<Light> lights, Camera camera, Vector4f clippingPlane)
 	{
 		prepare();
+		mSkySpectrum.update();
 		mShader.start();
 		//mShader.loadClippingPlane(clippingPlane); // water
 		mShader.loadSkyColor(0.4f, 0.5f, 0.5f);
@@ -94,7 +99,7 @@ public class MasterRenderer
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
 		
-		skyboxRenderer.render(camera, 0.4f, 0.5f, 0.5f);
+		//skyboxRenderer.render(camera, 0.4f, 0.5f, 0.5f);
 		
 		terrains.clear();
 		entities.clear();

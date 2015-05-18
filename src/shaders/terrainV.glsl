@@ -8,7 +8,7 @@ in vec2 texCoord;
 in vec3 normal;
 
 out vec2 TexCoord;
-out vec3 SurfaceNormal;
+out vec3 Normal;
 out vec3 ToLightVector[4];
 out vec3 ToCameraVector;
 
@@ -28,7 +28,7 @@ void main()
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	TexCoord = texCoord;
 	
-	SurfaceNormal = (transformationMatrix * vec4(normal, 0.0)).xyz;
+	Normal = (transformationMatrix * vec4(normal, 0.0)).xyz;
 	
 	for (int i = 0; i < 4; i++)
 	{

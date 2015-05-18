@@ -3,10 +3,12 @@
 #include "fog.glfh"
 #include "ambience.glfh"
 
+const int MAX_NUM_LIGHTS = 4;
+
 in vec2 TexCoord;
-in vec3 SurfaceNormal;
-in vec3 ToLightVector[4];
-uniform vec3 attenuation[4];
+in vec3 Normal;
+in vec3 ToLightVector[MAX_NUM_LIGHTS];
+uniform vec3 attenuation[MAX_NUM_LIGHTS];
 in vec3 ToCameraVector;
 
 
@@ -38,16 +40,16 @@ void main()
 	
 	vec4 totalColor = bgTextureColor + rTextureColor + gTextureColor + bTextureColor;
 	
-	vec3 unitNormal = normalize(SurfaceNormal);
+	vec3 unitNormal = normalize(Normal);
 	vec3 unitVectorToCamera = normalize(ToCameraVector);
 	
 
 	vec3 totalDiffuse = vec3(0.0);
 	vec3 totalSpecular = vec3(0.0);
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < MAX_NUM_LIGHTS; i++)
 	{
-		float distance = length(ToLightVector[i]);
-		float attFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance * distance);
+		float lightDistance = length(ToLightVector[i]);
+		float attFactor = attenuation[i].x + (attenuation[i].y * lightDistance) + (attenuation[i].z * lightDistance * lightDistance);
 		vec3 unitLightVector = normalize(ToLightVector[i]);
 	
 		// Diffuse Lighting
@@ -67,6 +69,6 @@ void main()
 	}
 	totalDiffuse = max(totalDiffuse, 0.2);
 
-	fragColor = vec4(totalDiffuse, 1.0) * totalColor + vec4(totalSpecular, 1.0) + environmentTint(skyColor);
+	fragColor = vec4(totalDiffuse, 1.0) * totalColor + vec4(totalSpecular, 0.5) + environmentTint(skyColor, 0.2);
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
 }
