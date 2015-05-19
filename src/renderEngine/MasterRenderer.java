@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import colors.SkySpectrum;
+import lights.DirectionalLight;
 import models.TexturedModel;
 
 import org.lwjgl.opengl.Display;
@@ -69,17 +70,17 @@ public class MasterRenderer
 		
 	}
 	
-	public void renderScene(List<Entity> entities, List<Terrain> terrains, List<Light> lights, Camera camera, Vector4f clippingPlane)
+	public void renderScene(List<Entity> entities, List<Terrain> terrains, List<Light> lights, DirectionalLight directionalLight, Camera camera, Vector4f clippingPlane)
 	{
 		for (Terrain terrain : terrains)
 			processTerrain(terrain);
 		for (Entity entity : entities)
 			processEntity(entity);
-		render(lights, camera, clippingPlane);
+		render(lights, directionalLight, camera, clippingPlane);
 	}
 	
 	
-	public void render(List<Light> lights, Camera camera, Vector4f clippingPlane)
+	public void render(List<Light> lights, DirectionalLight directionalLight, Camera camera, Vector4f clippingPlane)
 	{
 		prepare();
 		//mSkySpectrum.update();
@@ -95,7 +96,7 @@ public class MasterRenderer
 		//terrainShader.loadClippingPlane(clippingPlane); // water
 		terrainShader.loadSkyColor(0.4f, 0.5f, 0.5f);
 		terrainShader.loadLights(lights);
-		terrainShader.loadDirectionalLight(new Vector3f(0, -1, 0), camera.getPosition(), 1.f);
+		terrainShader.loadDirectionalLight(directionalLight);
 		terrainShader.loadViewMatrix(camera);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();

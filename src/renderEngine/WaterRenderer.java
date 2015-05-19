@@ -26,7 +26,7 @@ import camera.Camera;
 
 import com.game.core.Loader;
 
-import effects.WaterTile;
+import water.WaterTile;
 
 public class WaterRenderer {
  

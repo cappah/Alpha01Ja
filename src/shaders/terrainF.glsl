@@ -3,7 +3,7 @@
 #include "fog.glfh"
 #include "ambience.glfh"
 #include "multiTexture.glfh"
-#include "lighting.glfh"
+//#include "lighting.glfh"
 
 const int MAX_NUM_LIGHTS = 4;
 
@@ -22,16 +22,23 @@ uniform vec3 lightColor[4];
 uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColor;
+in vec4 CamPosition;
 
+struct DirectionalLight
+{
+	vec3 color;
+	vec3 direction;
+	float intensity;
+};
 
-
+uniform DirectionalLight gDirectionalLight;
 
 
 void main()
 {
 	// MultiTexture terrain
 	vec4 totalColor = calcMultiTexture(TexCoord);
-	
+
 	vec3 unitNormal = normalize(Normal);
 	vec3 unitVectorToCamera = normalize(ToCameraVector);
 	
@@ -63,8 +70,9 @@ void main()
 	}
 	totalDiffuse = max(totalDiffuse, 0.2);
 
+
 	fragColor = vec4(totalDiffuse, 1.0) * totalColor + vec4(totalSpecular, 0.5) +
-	environmentTint(skyColor, 0.2) +
-	CalcDirectionalLight(gDirectionalLight, camPos, Normal, WorldPos);
+	environmentTint(skyColor, 0.2);
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
+
 }

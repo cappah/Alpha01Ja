@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import lights.DirectionalLight;
 import models.OBJLoader;
 import models.RawModel;
 import models.TexturedModel;
@@ -13,7 +14,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import camera.Camera;
-import effects.WaterTile;
+import water.WaterTile;
 import entities.Entity;
 import lights.Light;
 import entities.Player;
@@ -124,6 +125,8 @@ public class Main
         lights.add(new Light(new Vector3f(95.0f, 5.0f, 91.0f), new Vector3f(2.0f, 0.0f, 0.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
         lights.add(new Light(new Vector3f(238.0f, 30.0f, 195.0f), new Vector3f(0.0f, 2.0f, 2.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
         lights.add(new Light(new Vector3f(164.0f, 10.0f, 262.0f), new Vector3f(2.0f, 2.0f, 0.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
+
+        DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0, 1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f), 0.5f);
         /******************************************************************************/
         
         MasterRenderer renderer = new MasterRenderer(loader);
@@ -146,7 +149,7 @@ public class Main
        WaterShader waterShader = new WaterShader();
        WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
        List<WaterTile> waters = new ArrayList<WaterTile>();
-       waters.add(new WaterTile(231.0f, 342.0f, -7.0f));
+       waters.add(new WaterTile(231.0f, 340.0f, -16.5f));
 
       // WaterFrameBuffers fbos = new WaterFrameBuffers();
       //  GUITexture refraction = new GUITexture(fbos.getRefractionTexture(), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
@@ -190,7 +193,7 @@ public class Main
             // render scene
             glDisable(GL_CLIP_DISTANCE0);
             fbos.unbindCurrentFrameBuffer();*/
-        	renderer.renderScene(entities, terrainList, lights, camera, new Vector4f(0, -1, 0, 100000));
+        	renderer.renderScene(entities, terrainList, lights, directionalLight, camera, new Vector4f(0, -1, 0, 100000));
         	waterRenderer.render(waters, camera);
         	guiRenderer.render(guis);
         	

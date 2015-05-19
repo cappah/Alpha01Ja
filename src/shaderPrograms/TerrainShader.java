@@ -2,6 +2,7 @@ package shaderPrograms;
 
 import java.util.List;
 
+import lights.DirectionalLight;
 import math.Maths;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -49,7 +50,6 @@ public class TerrainShader extends ShaderProgram
 	private int location_directionalLightAmbientIntensity;
 	private int location_directionalLightDirection;
 
-	private int location_camPosition;
 	
 	public TerrainShader()
 	{
@@ -107,11 +107,9 @@ public class TerrainShader extends ShaderProgram
 		location_baseLightColor = super.getUniformLocation("gBaseLight.color");
 		location_baseLightIntensity = super.getUniformLocation("gBaseLight.intensity");
 		// Directional Light
-		location_directionalLightColor = super.getUniformLocation("gDirectionalLight.base.color");
-		location_directionalLightAmbientIntensity = super.getUniformLocation("gDirectionalLight.base.intensity");
-		location_directionalLightDirection = super.getUniformLocation("gDirectionalLight.base.direction");
-
-		location_camPosition = super.getUniformLocation("camPos");
+		location_directionalLightColor = super.getUniformLocation("gDirectionalLight.color");
+		location_directionalLightAmbientIntensity = super.getUniformLocation("gDirectionalLight.intensity");
+		location_directionalLightDirection = super.getUniformLocation("gDirectionalLight.direction");
 	}
 
 	
@@ -187,32 +185,30 @@ public class TerrainShader extends ShaderProgram
 	                    LIGHTING
 	 **************************************************/
 
-	private void loadBaseLightColor(Vector3f color)
+
+	public void loadBaseLightColor(Vector3f color)
 	{
 		super.loadVector(location_baseLightColor, color);
 	}
 
 
-	private void loadBaseLightAmbience(float ambientIntensity)
+	public void loadBaseLightAmbience(float ambientIntensity)
 	{
 		super.loadFloat(location_baseLightIntensity, ambientIntensity);
 	}
 
 
-	public void loadDirectionalLight(Vector3f direction, Vector3f color, float ambientIntensity)
+	public void loadDirectionalLight(DirectionalLight light)
 	{
-		//loadBaseLightColor(color);
-		//loadBaseLightAmbience(ambientIntensity);
-		super.loadVector(location_directionalLightDirection, direction);
-		super.loadVector(location_directionalLightColor, color);
-		super.loadFloat(location_directionalLightAmbientIntensity, ambientIntensity);
+		loadBaseLightAmbience(light.getIntensity());
+		loadBaseLightColor(light.getColor());
+		super.loadVector(location_directionalLightDirection, light.getDirection());
+		super.loadVector(location_directionalLightColor, light.getColor());
+		super.loadFloat(location_directionalLightAmbientIntensity, light.getIntensity());
 	}
 
 
-	public void loadCamPos(Vector3f pos)
-	{
-		super.loadVector(location_camPosition, pos);
-	}
+
 
 
 	public void loadDirectionalLightAmbience(float ambientIntensity) {

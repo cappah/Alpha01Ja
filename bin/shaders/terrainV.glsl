@@ -3,19 +3,21 @@
 #include "water.glvh"
 #include "fog.glvh"
 
-in vec3 position;
-in vec2 texCoord;
-in vec3 normal;
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec2 texCoord;
+layout (location = 2) in vec3 normal;
 
 out vec2 TexCoord;
-out vec3 Normal;
+smooth out vec3 Normal;
 out vec3 ToLightVector[4];
 out vec3 ToCameraVector;
 out vec3 WorldPos;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 transformationMatrix;
+
 uniform vec3 lightPosition[4];
+
 
 
 void main()
@@ -28,7 +30,8 @@ void main()
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	TexCoord = texCoord;
-	
+
+
 	Normal = (transformationMatrix * vec4(normal, 0.0)).xyz;
 	
 	for (int i = 0; i < 4; i++)
@@ -37,6 +40,5 @@ void main()
 	}
 	
 	ToCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
-	
 	CalcFog(positionRelativeToCamera);
 }

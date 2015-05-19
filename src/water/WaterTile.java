@@ -1,4 +1,4 @@
-package effects;
+package water;
 
 public class WaterTile {
     
