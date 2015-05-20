@@ -45,7 +45,6 @@ uniform SpotLight gSpotlight;
 
 vec4 CalcBaseLight(BaseLight light, vec3 camPos, vec3 lightDirection, vec3 normal)
 {
-
 	vec4 ambientColor = vec4(light.color, 1.0) * light.ambientIntensity;
 	float diffuseFactor = max(0.0, dot(normal, -lightDirection));
 
@@ -58,12 +57,12 @@ vec4 CalcBaseLight(BaseLight light, vec3 camPos, vec3 lightDirection, vec3 norma
 
 		vec3 directionToEye = normalize(camPos - WorldPos);
 
-		// the direction of maximum highlight also changes per fragment
-		vec3 halfDirection = normalize(directionToEye - lightDirection);
+        // the direction of maximum highlight also changes per fragment
+        vec3 halfDirection = normalize(directionToEye - lightDirection);
+        vec3 lightReflect = normalize(reflect(lightDirection, normal));
 
-		float specularFactor = max(0.0, dot(halfDirection, normal));
-		vec3 lightReflect = normalize(reflect(lightDirection, normal));
-		specularFactor = pow(specularFactor, specularPower);
+        float specularFactor = max(0.0, dot(halfDirection, normal));
+        specularFactor = pow(specularFactor, specularPower);
 
 		if (specularFactor > 0)
 			specularColor = vec4(light.color, 1.0) * specularIntensity * specularFactor;
@@ -91,8 +90,6 @@ vec4 CalcPointLight(PointLight light, vec3 camPos, vec3 normal)
 
     lightDirection = normalize(lightDirection);
 
-
-
     vec4 color = CalcBaseLight(light.base, camPos, lightDirection, normal);
 
     // model how much light is available for this fragment
@@ -100,8 +97,6 @@ vec4 CalcPointLight(PointLight light, vec3 camPos, vec3 normal)
                        (light.atten.linear * lightDistance) +
                        (light.atten.exponent * lightDistance * lightDistance) +
                         0.0001;
-
-
 
     return color / attenuation;
 }

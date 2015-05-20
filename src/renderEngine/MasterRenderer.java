@@ -91,6 +91,8 @@ public class MasterRenderer
 		//mShader.loadClippingPlane(clippingPlane); // water
 		mShader.loadSkyColor(0.4f, 0.5f, 0.5f);
 		mShader.loadLights(lights);
+		mShader.loadDirectionalLight(directionalLight);
+		mShader.loadPointLight(pointLight);
 		mShader.loadViewMatrix(camera);
 		renderer.render(entities);
 		mShader.stop();

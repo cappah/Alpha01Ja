@@ -123,14 +123,15 @@ public class Main
         /******************************LIGHTS******************************************/
         Light light = new Light(new Vector3f(0.0f, 0.0f, -20.0f), new Vector3f(1.0f, 1.0f, 1.0f));
         List<Light> lights = new ArrayList<Light>();
-        lights.add(new Light(new Vector3f(0.0f, 1000.0f, -7000.0f), new Vector3f(0.4f, 0.4f, 0.4f)));
+        //lights.add(new Light(new Vector3f(0.0f, 1000.0f, -7000.0f), new Vector3f(0.4f, 0.4f, 0.4f)));
         //lights.add(new Light(new Vector3f(95.0f, 5.0f, 91.0f), new Vector3f(2.0f, 0.0f, 0.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
        // lights.add(new Light(new Vector3f(238.0f, 30.0f, 195.0f), new Vector3f(0.0f, 2.0f, 2.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
        // lights.add(new Light(new Vector3f(164.0f, 10.0f, 262.0f), new Vector3f(2.0f, 2.0f, 0.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
 
-        DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0.0f, 1000.0f, -7000.0f), new Vector3f(0.4f, 0.5f, 0.5f), 0.5f, 1.0f, 1.f, 2.f);
-        PointLight pointLight = new PointLight(new Vector3f(299.8f, 1.f, 69.0f), new Vector3f(1.0f, 1.0f, 0.0f),
-                50.f, 25.f, 25.f, 15.f, 10.f, 5.f, 4.f, 2.f);
+        DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0.0f, 1000.0f, -7000.0f), new Vector3f(0.4f, 0.5f, 0.5f),
+                0.5f, 0.1f, 10.f, 2.f);
+        PointLight pointLight = new PointLight(new Vector3f(316.8f, 4.f, 63.0f), new Vector3f(1.0f, 1.0f, 0.0f),
+                50.f, 30.f, 25.f, 15.f, 10.f, 5.f, 41.f, 14.f);
 
         /******************************************************************************/
         

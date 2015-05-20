@@ -63,10 +63,11 @@ void main()
 	{
 		discard;
 	}
-	
+
+	vec4 Lights =  CalcDirectionalLight(gDirectionalLight, CameraPos, gDirectionalLight.direction, Normal) +
+                      CalcPointLight(gPointLight, CameraPos, Normal);
+
 	fragColor = vec4(totalDiffuse, 1.0) * textureColor + vec4(totalSpecular, 1.0) +
-    CalcDirectionalLight(gDirectionalLight, CameraPos, gDirectionalLight.direction, Normal) +
-    CalcPointLight(gPointLight, CameraPos, Normal);
-	environmentTint(skyColor, 0.2);
+	/*environmentTint(skyColor, 0.2) +*/ Lights;
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
 }

@@ -63,11 +63,13 @@ void main()
 	}
 	totalDiffuse = max(totalDiffuse, 0.2);
 // 207
-	vec4 Light = CalcDirectionalLight(gDirectionalLight, CameraPos, gDirectionalLight.direction, Normal) +
+	vec4 Lights = CalcDirectionalLight(gDirectionalLight, CameraPos, gDirectionalLight.direction, Normal) +
                     	CalcPointLight(gPointLight, CameraPos, Normal);
 
+	//vec3 baseLightDirection = WorldPos - CameraPos;
+	//fragColor = totalColor + environmentTint(skyColor, 0.2) + CalcBaseLight(gBaseLight, CameraPos, baseLightDirection, Normal) + Lights;
 	fragColor = vec4(totalDiffuse, 1.0) *  totalColor + vec4(totalSpecular, 0.5) +
-	environmentTint(skyColor, 0.2) + Light;
+	/*environmentTint(skyColor, 0.2) +*/ Lights;
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
 
 }
