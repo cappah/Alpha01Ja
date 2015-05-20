@@ -6,9 +6,11 @@
 const int MAX_NUM_LIGHTS = 4;
 
 in vec2 TexCoord;
-in vec3 SurfaceNormal;
+in vec3 Normal;
 in vec3 ToLightVector[4];
 in vec3 ToCameraVector;
+in vec3 WorldPos;
+in vec3 CameraPos;
 
 out vec4 fragColor;
 
@@ -20,9 +22,11 @@ uniform vec3 skyColor;
 
 uniform sampler2D textureSampler;
 
+#include "lightFuncs.glfh"
+
 void main()
 {
-	vec3 unitNormal = normalize(SurfaceNormal);
+	vec3 unitNormal = normalize(Normal);
 	vec3 unitVectorToCamera = normalize(ToCameraVector);
 	
 	
@@ -60,6 +64,9 @@ void main()
 		discard;
 	}
 	
-	fragColor = vec4(totalDiffuse, 1.0) * textureColor + vec4(totalSpecular, 1.0) + environmentTint(skyColor, 0.2);
+	fragColor = vec4(totalDiffuse, 1.0) * textureColor + vec4(totalSpecular, 1.0) +
+    CalcDirectionalLight(gDirectionalLight, CameraPos, gDirectionalLight.direction, Normal) +
+    CalcPointLight(gPointLight, CameraPos, Normal);
+	environmentTint(skyColor, 0.2);
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
 }

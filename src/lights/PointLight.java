@@ -18,10 +18,10 @@ public class PointLight extends BaseLight
 
     }
 
-    public PointLight(Vector3f position, Vector3f color, float intensity, float range,
-                      float constant, float linear, float exp)
+    public PointLight(Vector3f position, Vector3f color, float ambientIntensity, float diffuseIntensity, float range,
+                      float constant, float linear, float exp, float specIntensity, float specPower)
     {
-        super(color, intensity);
+        super(color, ambientIntensity, diffuseIntensity, specIntensity, specPower);
 
         mPosition = position;
         mRange = range;

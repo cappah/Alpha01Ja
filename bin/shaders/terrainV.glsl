@@ -12,6 +12,7 @@ smooth out vec3 Normal;
 out vec3 ToLightVector[4];
 out vec3 ToCameraVector;
 out vec3 WorldPos;
+out vec3 CameraPos;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 transformationMatrix;
@@ -28,6 +29,7 @@ void main()
 	setClippingDistance(worldPosition);
 
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
+	CameraPos = positionRelativeToCamera.xyz;
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	TexCoord = texCoord;
 

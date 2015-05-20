@@ -8,9 +8,11 @@ in vec2 texCoord;
 in vec3 normal;
 
 out vec2 TexCoord;
-out vec3 SurfaceNormal;
+out vec3 Normal;
 out vec3 ToLightVector[4];
 out vec3 ToCameraVector;
+out vec3 WorldPos;
+out vec3 CameraPos;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
@@ -25,10 +27,12 @@ uniform vec2 offset;
 void main()
 {
 	vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
+	WorldPos = worldPosition.xyz;
 
 	setClippingDistance(worldPosition);
 
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
+	CameraPos = positionRelativeToCamera.xyz;
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	TexCoord = (texCoord / numberOfRows) + offset;
 	
@@ -37,7 +41,7 @@ void main()
 	{
 		actualNormal = vec3(0.0, 1.0, 0.0);
 	}
-	SurfaceNormal = (transformationMatrix * vec4(actualNormal, 0.0)).xyz;
+	Normal = (transformationMatrix * vec4(actualNormal, 0.0)).xyz;
 	
 	for (int i = 0; i < 4; i++)
 	{

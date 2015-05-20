@@ -1,0 +1,125 @@
+uniform float specularIntensity;
+uniform float specularPower;
+
+struct BaseLight
+{
+    vec3 color;
+    float ambientIntensity;
+    float diffuseIntensity;
+};
+
+struct Attenuation
+{
+    float constant;
+    float linear;
+    float exponent;
+};
+
+struct DirectionalLight
+{
+    BaseLight base;
+    vec3 direction;
+};
+
+struct PointLight
+{
+    BaseLight base;
+    Attenuation atten;
+    vec3 position;
+    float range;
+};
+
+struct SpotLight
+{
+    PointLight pointLight;
+    vec3 direction;
+    float cutoff;
+};
+
+
+uniform BaseLight gBaseLight;
+uniform DirectionalLight gDirectionalLight;
+uniform PointLight gPointLight;
+uniform SpotLight gSpotlight;
+
+
+vec4 CalcBaseLight(BaseLight light, vec3 camPos, vec3 lightDirection, vec3 normal)
+{
+
+	vec4 ambientColor = vec4(light.color, 1.0) * light.ambientIntensity;
+	float diffuseFactor = max(0.0, dot(normal, -lightDirection));
+
+	vec4 diffuseColor = vec4(0,0,0,0);
+    vec4 specularColor = vec4(0,0,0,0);
+
+	if (diffuseFactor > 0)
+	{
+		diffuseColor = vec4(light.color, 1.0) * light.diffuseIntensity * diffuseFactor;
+
+		vec3 directionToEye = normalize(camPos - WorldPos);
+
+		// the direction of maximum highlight also changes per fragment
+		vec3 halfDirection = normalize(directionToEye - lightDirection);
+
+		float specularFactor = max(0.0, dot(halfDirection, normal));
+		vec3 lightReflect = normalize(reflect(lightDirection, normal));
+		specularFactor = pow(specularFactor, specularPower);
+
+		if (specularFactor > 0)
+			specularColor = vec4(light.color, 1.0) * specularIntensity * specularFactor;
+	}
+
+	return ambientColor + diffuseColor + specularColor;
+}
+
+
+vec4 CalcDirectionalLight(DirectionalLight light, vec3 camPos, vec3 lightDirection, vec3 normal)
+{
+    return CalcBaseLight(light.base, camPos, -lightDirection, normal);
+}
+
+
+vec4 CalcPointLight(PointLight light, vec3 camPos, vec3 normal)
+{
+    // find the direction and distance of the light,
+    // which changes fragment to fragment for a local light
+    vec3 lightDirection = WorldPos - light.position;
+    float lightDistance = length(lightDirection);
+
+    if(lightDistance > light.range)
+            return vec4(0,0,0,0);
+
+    lightDirection = normalize(lightDirection);
+
+
+
+    vec4 color = CalcBaseLight(light.base, camPos, lightDirection, normal);
+
+    // model how much light is available for this fragment
+    float attenuation = light.atten.constant +
+                       (light.atten.linear * lightDistance) +
+                       (light.atten.exponent * lightDistance * lightDistance) +
+                        0.0001;
+
+
+
+    return color / attenuation;
+}
+
+
+vec4 CalcSpotLight(SpotLight light, vec3 camPos, vec3 normal)
+{
+    vec3 lightDirection = normalize(WorldPos - light.pointLight.position);
+    float spotFactor = dot(lightDirection, light.direction);
+
+    vec4 color = vec4(0,0,0,0);
+
+    if(spotFactor > light.cutoff)
+    {
+        color = CalcPointLight(light.pointLight, camPos, normal) *
+        (1.0 - (1.0 - spotFactor)/(1.0 - light.cutoff));
+        return color;
+    }
+    else
+        return color;
+}

@@ -2,7 +2,7 @@ package shaderPrograms;
 
 import java.util.List;
 
-import lights.DirectionalLight;
+import lights.*;
 import math.Maths;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -12,7 +12,6 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import camera.Camera;
-import lights.Light;
 import org.lwjgl.util.vector.Vector4f;
 
 
@@ -43,12 +42,36 @@ public class TerrainShader extends ShaderProgram
 	private int location_plane;
 
 	// Base Light
+	private int location_specularIntensity;
+	private int location_specularPower;
 	private int location_baseLightColor;
-	private int location_baseLightIntensity;
+	private int location_baseLightAmbientIntensity;
+	private int location_baseLightDiffuseIntensity;
 	// Directional Light
 	private int location_directionalLightColor;
 	private int location_directionalLightAmbientIntensity;
+	private int location_directionalLightDiffuseIntensity;
 	private int location_directionalLightDirection;
+	// Point Light
+	private int location_pointLightColor;
+	private int location_pointLightAmbientIntensity;
+	private int location_pointLightDiffuseIntensity;
+	private int location_pointLightAttenConst;
+	private int location_pointLightAttenLinear;
+	private int location_pointLightAttenExp;
+	private int location_pointLightPosition;
+	private int location_pointLightRange;
+	// Point Light
+	private int location_spotLightColor;
+	private int location_spotLightAmbientIntensity;
+	private int location_spotLightDiffuseIntensity;
+	private int location_spotLightAttenConst;
+	private int location_spotLightAttenLinear;
+	private int location_spotLightAttenExp;
+	private int location_spotLightPosition;
+	private int location_spotLightRange;
+	private int location_spotLightDirection;
+	private int location_spotLightCutoff;
 
 	
 	public TerrainShader()
@@ -104,12 +127,38 @@ public class TerrainShader extends ShaderProgram
 		location_plane = super.getUniformLocation("plane");
 
 		// Base Light
+		location_specularIntensity = super.getUniformLocation("specularIntensity");
+		location_specularPower = super.getUniformLocation("specularPower");
 		location_baseLightColor = super.getUniformLocation("gBaseLight.color");
-		location_baseLightIntensity = super.getUniformLocation("gBaseLight.intensity");
+		location_baseLightAmbientIntensity = super.getUniformLocation("gBaseLight.ambientIntensity");
+		location_baseLightAmbientIntensity = super.getUniformLocation("gBaseLight.diffuseIntensity");
+		
 		// Directional Light
-		location_directionalLightColor = super.getUniformLocation("gDirectionalLight.color");
-		location_directionalLightAmbientIntensity = super.getUniformLocation("gDirectionalLight.intensity");
+		location_directionalLightColor = super.getUniformLocation("gDirectionalLight.base.color");
+		location_directionalLightAmbientIntensity = super.getUniformLocation("gDirectionalLight.base.ambientIntensity");
+		location_directionalLightDiffuseIntensity = super.getUniformLocation("gDirectionalLight.base.diffuseIntensity");
 		location_directionalLightDirection = super.getUniformLocation("gDirectionalLight.direction");
+		
+		// Point Light
+		location_pointLightColor = super.getUniformLocation("gPointLight.base.color");
+		location_pointLightAmbientIntensity = super.getUniformLocation("gPointLight.base.ambientIntensity");
+		location_pointLightDiffuseIntensity = super.getUniformLocation("gPointLight.base.diffuseIntensity");
+		location_pointLightAttenConst = super.getUniformLocation("gPointLight.atten.constant");
+		location_pointLightAttenLinear = super.getUniformLocation("gPointLight.atten.linear");
+		location_pointLightAttenExp = super.getUniformLocation("gPointLight.atten.exponent");
+		location_pointLightPosition = super.getUniformLocation("gPointLight.position");
+		location_pointLightRange = super.getUniformLocation("gPointLight.range");
+		// Spot Light
+		location_spotLightColor = super.getUniformLocation("gSpotLight.pointLight.base.color");
+		location_spotLightAmbientIntensity = super.getUniformLocation("gSpotLight.pointLight.base.ambientIntensity");
+		location_spotLightDiffuseIntensity = super.getUniformLocation("gSpotLight.pointLight.base.diffuseIntensity");
+		location_spotLightAttenConst = super.getUniformLocation("gSpotLight.pointLight.atten.const");
+		location_spotLightAttenLinear = super.getUniformLocation("gSpotLight.pointLight.atten.linear");
+		location_spotLightAttenExp = super.getUniformLocation("gSpotLight.pointLight.atten.exponent");
+		location_spotLightPosition = super.getUniformLocation("gSpotLight.pointLight.position");
+		location_spotLightRange = super.getUniformLocation("gSpotLight.pointLight.range");
+		location_spotLightDirection = super.getUniformLocation("gSpotLight.direction");
+		location_spotLightCutoff = super.getUniformLocation("gSpotLight.cutoff");
 	}
 
 	
@@ -185,33 +234,50 @@ public class TerrainShader extends ShaderProgram
 	                    LIGHTING
 	 **************************************************/
 
-
-	public void loadBaseLightColor(Vector3f color)
+	public void loadBaseLight(BaseLight light)
 	{
-		super.loadVector(location_baseLightColor, color);
-	}
-
-
-	public void loadBaseLightAmbience(float ambientIntensity)
-	{
-		super.loadFloat(location_baseLightIntensity, ambientIntensity);
+		super.loadVector(location_baseLightColor, light.getColor());
+		super.loadFloat(location_baseLightAmbientIntensity, light.getAmbientIntensity());
+		super.loadFloat(location_baseLightDiffuseIntensity, light.getDiffuseIntensity());
+		super.loadFloat(location_specularIntensity, light.getSpecularIntensity());
+		super.loadFloat(location_specularPower, light.getSpecularPower());
 	}
 
 
 	public void loadDirectionalLight(DirectionalLight light)
 	{
-		loadBaseLightAmbience(light.getIntensity());
-		loadBaseLightColor(light.getColor());
+
 		super.loadVector(location_directionalLightDirection, light.getDirection());
 		super.loadVector(location_directionalLightColor, light.getColor());
-		super.loadFloat(location_directionalLightAmbientIntensity, light.getIntensity());
+		super.loadFloat(location_directionalLightAmbientIntensity, light.getAmbientIntensity());
+		super.loadFloat(location_baseLightDiffuseIntensity, light.getDiffuseIntensity());
 	}
 
 
+	public void loadPointLight(PointLight light)
+	{
+		super.loadVector(location_pointLightPosition, light.getPosition());
+		super.loadVector(location_pointLightColor, light.getColor());
+		super.loadFloat(location_pointLightAmbientIntensity, light.getAmbientIntensity());
+		super.loadFloat(location_pointLightDiffuseIntensity, light.getDiffuseIntensity());
+		super.loadFloat(location_pointLightRange, light.getRange());
+		super.loadFloat(location_pointLightAttenConst, light.getAttenConstant());
+		super.loadFloat(location_pointLightAttenLinear, light.getAttenLinear());
+		super.loadFloat(location_pointLightAttenExp, light.getAttenEXP());
+	}
 
 
-
-	public void loadDirectionalLightAmbience(float ambientIntensity) {
-
+	public void loadSpotLight(SpotLight light)
+	{
+		super.loadVector(location_spotLightPosition, light.getPosition());
+		super.loadVector(location_spotLightDirection, light.getDirection());
+		super.loadVector(location_spotLightColor, light.getColor());
+		super.loadFloat(location_spotLightAmbientIntensity, light.getAmbientIntensity());
+		super.loadFloat(location_spotLightDiffuseIntensity, light.getDiffuseIntensity());
+		super.loadFloat(location_spotLightRange, light.getRange());
+		super.loadFloat(location_spotLightAttenConst, light.getAttenConstant());
+		super.loadFloat(location_spotLightAttenLinear, light.getAttenLinear());
+		super.loadFloat(location_spotLightAttenExp, light.getAttenEXP());
+		super.loadFloat(location_spotLightCutoff, light.getmCutoff());
 	}
 }

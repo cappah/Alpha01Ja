@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 import lights.DirectionalLight;
+import lights.PointLight;
+import lights.SpotLight;
 import models.OBJLoader;
 import models.RawModel;
 import models.TexturedModel;
@@ -122,11 +124,14 @@ public class Main
         Light light = new Light(new Vector3f(0.0f, 0.0f, -20.0f), new Vector3f(1.0f, 1.0f, 1.0f));
         List<Light> lights = new ArrayList<Light>();
         lights.add(new Light(new Vector3f(0.0f, 1000.0f, -7000.0f), new Vector3f(0.4f, 0.4f, 0.4f)));
-        lights.add(new Light(new Vector3f(95.0f, 5.0f, 91.0f), new Vector3f(2.0f, 0.0f, 0.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
-        lights.add(new Light(new Vector3f(238.0f, 30.0f, 195.0f), new Vector3f(0.0f, 2.0f, 2.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
-        lights.add(new Light(new Vector3f(164.0f, 10.0f, 262.0f), new Vector3f(2.0f, 2.0f, 0.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
+        //lights.add(new Light(new Vector3f(95.0f, 5.0f, 91.0f), new Vector3f(2.0f, 0.0f, 0.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
+       // lights.add(new Light(new Vector3f(238.0f, 30.0f, 195.0f), new Vector3f(0.0f, 2.0f, 2.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
+       // lights.add(new Light(new Vector3f(164.0f, 10.0f, 262.0f), new Vector3f(2.0f, 2.0f, 0.0f), new Vector3f(1.0f, 0.01f, 0.002f)));
 
-        DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0, 1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f), 0.5f);
+        DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0.0f, 1000.0f, -7000.0f), new Vector3f(0.4f, 0.5f, 0.5f), 0.5f, 1.0f, 1.f, 2.f);
+        PointLight pointLight = new PointLight(new Vector3f(299.8f, 1.f, 69.0f), new Vector3f(1.0f, 1.0f, 0.0f),
+                50.f, 25.f, 25.f, 15.f, 10.f, 5.f, 4.f, 2.f);
+
         /******************************************************************************/
         
         MasterRenderer renderer = new MasterRenderer(loader);
@@ -193,7 +198,7 @@ public class Main
             // render scene
             glDisable(GL_CLIP_DISTANCE0);
             fbos.unbindCurrentFrameBuffer();*/
-        	renderer.renderScene(entities, terrainList, lights, directionalLight, camera, new Vector4f(0, -1, 0, 100000));
+        	renderer.renderScene(entities, terrainList, lights, directionalLight, pointLight, camera, new Vector4f(0, -1, 0, 100000));
         	waterRenderer.render(waters, camera);
         	guiRenderer.render(guis);
         	

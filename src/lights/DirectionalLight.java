@@ -18,9 +18,9 @@ public class DirectionalLight extends BaseLight
     }
 
 
-    public DirectionalLight(Vector3f direction, Vector3f color, float intensity)
+    public DirectionalLight(Vector3f direction, Vector3f color, float ambientIntensity, float diffuseIntensity, float specIntensity, float specPower)
     {
-        super(color, intensity);
+        super(color, ambientIntensity, diffuseIntensity, specIntensity, specPower);
 
         mDirection = direction;
     }

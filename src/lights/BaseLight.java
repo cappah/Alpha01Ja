@@ -8,18 +8,23 @@ import org.lwjgl.util.vector.Vector3f;
 public class BaseLight
 {
     private Vector3f mColor;
-    private float mIntensity;
-
+    private float mAmbientIntensity;
+    private float mDiffuseIntensity;
+    private float mSpecularIntensity;
+    private float mSpecularPower;
     public BaseLight()
     {
 
     }
 
 
-    public BaseLight(Vector3f color, float intensity)
+    public BaseLight(Vector3f color, float ambientIntensity, float diffuseIntensity, float specularIntensity, float specularPower)
     {
         mColor = color;
-        mIntensity = intensity;
+        mAmbientIntensity = ambientIntensity;
+        mDiffuseIntensity = diffuseIntensity;
+        mSpecularIntensity = specularIntensity;
+        mSpecularPower = specularPower;
     }
 
 
@@ -35,14 +40,49 @@ public class BaseLight
     }
 
 
-    public float getIntensity()
+    public float getAmbientIntensity()
     {
-        return mIntensity;
+        return mAmbientIntensity;
     }
 
 
-    public void setIntensity(float intensity)
+    public void setAmbientIntensity(float intensity)
     {
-        mIntensity = intensity;
+        mAmbientIntensity = intensity;
+    }
+
+    public float getDiffuseIntensity()
+    {
+        return mDiffuseIntensity;
+    }
+
+
+    public void setDiffuseIntensity(float intensity)
+    {
+        mDiffuseIntensity = intensity;
+    }
+
+
+    public float getSpecularIntensity()
+    {
+        return mSpecularIntensity;
+    }
+
+
+    public void setSpecularIntensity(float intensity)
+    {
+        mSpecularIntensity = intensity;
+    }
+
+
+    public float getSpecularPower()
+    {
+        return mSpecularPower;
+    }
+
+
+    public void setSpecularPower(float power)
+    {
+        mSpecularPower = power;
     }
 }

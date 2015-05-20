@@ -5,6 +5,7 @@
 #include "multiTexture.glfh"
 //#include "lighting.glfh"
 
+
 const int MAX_NUM_LIGHTS = 4;
 
 
@@ -14,7 +15,7 @@ in vec3 ToLightVector[MAX_NUM_LIGHTS];
 uniform vec3 attenuation[MAX_NUM_LIGHTS];
 in vec3 ToCameraVector;
 in vec3 WorldPos;
-
+in vec3 CameraPos;
 
 out vec4 fragColor;
 
@@ -22,23 +23,15 @@ uniform vec3 lightColor[4];
 uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColor;
-in vec4 CamPosition;
 
-struct DirectionalLight
-{
-	vec3 color;
-	vec3 direction;
-	float intensity;
-};
 
-uniform DirectionalLight gDirectionalLight;
-
+#include "lightFuncs.glfh"
 
 void main()
 {
 	// MultiTexture terrain
 	vec4 totalColor = calcMultiTexture(TexCoord);
-
+	vec4 TotalLight;
 	vec3 unitNormal = normalize(Normal);
 	vec3 unitVectorToCamera = normalize(ToCameraVector);
 	
@@ -50,7 +43,7 @@ void main()
 		float lightDistance = length(ToLightVector[i]);
 
 		// model how much light is available for this fragment
-		float attFactor = attenuation[i].x + (attenuation[i].y * lightDistance) + (attenuation[i].z * lightDistance * lightDistance);
+		float attFactor = attenuation[i].x + (attenuation[i].y * lightDistance) + (attenuation[i].z * lightDistance * lightDistance) + 0.0001;
 		vec3 unitLightVector = normalize(ToLightVector[i]);
 	
 		// Diffuse Lighting
@@ -69,10 +62,12 @@ void main()
 		totalSpecular = totalSpecular + (dampedFactor * reflectivity * lightColor[i]) / attFactor;
 	}
 	totalDiffuse = max(totalDiffuse, 0.2);
+// 207
+	vec4 Light = CalcDirectionalLight(gDirectionalLight, CameraPos, gDirectionalLight.direction, Normal) +
+                    	CalcPointLight(gPointLight, CameraPos, Normal);
 
-
-	fragColor = vec4(totalDiffuse, 1.0) * totalColor + vec4(totalSpecular, 0.5) +
-	environmentTint(skyColor, 0.2);
+	fragColor = vec4(totalDiffuse, 1.0) *  totalColor + vec4(totalSpecular, 0.5) +
+	environmentTint(skyColor, 0.2) + Light;
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
 
 }
