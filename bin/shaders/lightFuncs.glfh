@@ -1,3 +1,6 @@
+const int MAX_POINT_LIGHTS = 16;
+const int NUM_SPOT_LIGHTS = 16;
+
 uniform float specularIntensity;
 uniform float specularPower;
 
@@ -36,11 +39,13 @@ struct SpotLight
     float cutoff;
 };
 
-
+uniform int gNumPointLights;
+uniform int gNumSpotLights;
 uniform BaseLight gBaseLight;
 uniform DirectionalLight gDirectionalLight;
-uniform PointLight gPointLight;
+uniform PointLight gPointLight[MAX_POINT_LIGHTS];
 uniform SpotLight gSpotlight;
+
 
 
 vec4 CalcBaseLight(BaseLight light, vec3 camPos, vec3 lightDirection, vec3 normal)
@@ -59,9 +64,8 @@ vec4 CalcBaseLight(BaseLight light, vec3 camPos, vec3 lightDirection, vec3 norma
 
         // the direction of maximum highlight also changes per fragment
         vec3 halfDirection = normalize(directionToEye - lightDirection);
-        vec3 lightReflect = normalize(reflect(lightDirection, normal));
 
-        float specularFactor = max(0.0, dot(halfDirection, normal));
+        float specularFactor = max(0.0, dot(halfDirection, normal)); // half direction
         specularFactor = pow(specularFactor, specularPower);
 
 		if (specularFactor > 0)

@@ -31,13 +31,15 @@ void main()
 {
 	// MultiTexture terrain
 	vec4 totalColor = calcMultiTexture(TexCoord);
-	vec4 TotalLight;
+
+
 	vec3 unitNormal = normalize(Normal);
 	vec3 unitVectorToCamera = normalize(ToCameraVector);
 	
 
 	vec3 totalDiffuse = vec3(0.0);
 	vec3 totalSpecular = vec3(0.0);
+
 	for (int i = 0; i < MAX_NUM_LIGHTS; i++)
 	{
 		float lightDistance = length(ToLightVector[i]);
@@ -63,13 +65,19 @@ void main()
 	}
 	totalDiffuse = max(totalDiffuse, 0.2);
 // 207
-	vec4 Lights = CalcDirectionalLight(gDirectionalLight, CameraPos, gDirectionalLight.direction, Normal) +
-                    	CalcPointLight(gPointLight, CameraPos, Normal);
+    vec4 TotalPointLights = vec4(0, 0, 0, 0);
+
+    for (int i = 0; i < MAX_POINT_LIGHTS; ++i)
+    {
+        TotalPointLights += CalcPointLight(gPointLight[i], CameraPos, unitNormal);
+    }
+	vec4 TotalLight = CalcDirectionalLight(gDirectionalLight, CameraPos, gDirectionalLight.direction, unitNormal) + TotalPointLights;
+                    	//CalcPointLight(gPointLight, CameraPos, unitNormal);
 
 	//vec3 baseLightDirection = WorldPos - CameraPos;
 	//fragColor = totalColor + environmentTint(skyColor, 0.2) + CalcBaseLight(gBaseLight, CameraPos, baseLightDirection, Normal) + Lights;
-	fragColor = vec4(totalDiffuse, 1.0) *  totalColor + vec4(totalSpecular, 0.5) +
-	/*environmentTint(skyColor, 0.2) +*/ Lights;
+	fragColor = vec4(totalDiffuse, 1.0) *  totalColor + vec4(totalSpecular, 0.5)  +
+	vec4(environmentTint(skyColor, 0.512), 0.7) + TotalLight + TotalPointLights;
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
 
 }

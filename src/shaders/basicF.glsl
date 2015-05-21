@@ -5,6 +5,7 @@
 
 const int MAX_NUM_LIGHTS = 4;
 
+in vec4 V_Pos;
 in vec2 TexCoord;
 in vec3 Normal;
 in vec3 ToLightVector[4];
@@ -64,10 +65,17 @@ void main()
 		discard;
 	}
 
-	vec4 Lights =  CalcDirectionalLight(gDirectionalLight, CameraPos, gDirectionalLight.direction, Normal) +
-                      CalcPointLight(gPointLight, CameraPos, Normal);
+
+	vec4 TotalPointLights = vec4(0, 0, 0, 0);
+
+    for (int i = 0; i < MAX_POINT_LIGHTS; ++i)
+    {
+        TotalPointLights += CalcPointLight(gPointLight[i], CameraPos, unitNormal);
+    }
+    vec4 TotalLights = CalcDirectionalLight(gDirectionalLight, CameraPos, gDirectionalLight.direction, unitNormal) + TotalPointLights;
+                        //CalcPointLight(gPointLight, CameraPos, unitNormal);
 
 	fragColor = vec4(totalDiffuse, 1.0) * textureColor + vec4(totalSpecular, 1.0) +
-	/*environmentTint(skyColor, 0.2) +*/ Lights;
+	vec4(environmentTint(skyColor, 0.512), 0.7) + TotalLights + TotalPointLights;
 	fragColor = mix(vec4(skyColor, 1.0), fragColor, Visibility);
 }

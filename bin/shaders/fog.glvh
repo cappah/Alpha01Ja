@@ -1,6 +1,6 @@
 out float Visibility;		// Fog
 
-const float density = 0.00035;  // fog density
+const float density = 0.0011;  // fog density
 const float gradient = 5.0;
 
 void CalcFog(vec4 positionRelativeToCam)

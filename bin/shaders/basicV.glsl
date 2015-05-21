@@ -7,6 +7,7 @@ in vec3 position;
 in vec2 texCoord;
 in vec3 normal;
 
+out vec4 V_Pos;
 out vec2 TexCoord;
 out vec3 Normal;
 out vec3 ToLightVector[4];
@@ -32,8 +33,11 @@ void main()
 	setClippingDistance(worldPosition);
 
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
+	CalcFog(positionRelativeToCamera);
 	CameraPos = positionRelativeToCamera.xyz;
+
 	gl_Position = projectionMatrix * positionRelativeToCamera;
+	V_Pos = gl_Position;
 	TexCoord = (texCoord / numberOfRows) + offset;
 	
 	vec3 actualNormal = normal;

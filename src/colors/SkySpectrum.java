@@ -2,6 +2,8 @@ package colors;
 
 import utils.FPSTimer;
 
+import java.util.TimerTask;
+
 /**
  * Calculates the color of the sky based on a specific period
  * of time that represents a day cycle.
@@ -10,25 +12,15 @@ import utils.FPSTimer;
  */
 public class SkySpectrum
 {
-    private FPSTimer mTimer;
+    private final long SECOND = 1000L;
+
+    private long mStart;
+    private int countSeconds = 0;
+    private int countMinutes = 0;
 
     public SkySpectrum()
     {
-        mTimer = new FPSTimer();
+
 
     }
-
-    public void init()
-    {
-        mTimer.init();
-    }
-
-    public void update()
-    {
-        mTimer.update();
-        System.out.println("FPS:" + mTimer.getFPS());
-    }
-
-
-
 }

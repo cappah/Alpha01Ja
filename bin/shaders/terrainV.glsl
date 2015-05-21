@@ -29,7 +29,9 @@ void main()
 	setClippingDistance(worldPosition);
 
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
+	CalcFog(positionRelativeToCamera);
 	CameraPos = positionRelativeToCamera.xyz;
+
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	TexCoord = texCoord;
 
